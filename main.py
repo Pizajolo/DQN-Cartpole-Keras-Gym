@@ -136,7 +136,24 @@ def train_dqn(episodes, model_name, load_model=False):
             agent.save("cartpole-ddqn.h5")
 
 
+def show_result(count, model):
+    env = gym.make('CartPole-v1')
+    state_size = env.observation_space.shape[0]
+    action_size = env.action_space.n
+    agent = DQNAgent(state_size, action_size)
+    agent.load(model)
+    state = env.reset()
+    state = np.reshape(state, [1, state_size])
+    for time in range(count):
+        env.render()
+        action = agent.act(state)
+        next_state, reward, done, _ = env.step(action)
+        next_state = np.reshape(next_state, [1, state_size])
+        state = next_state
+
+
 if __name__ == "__main__":
     # run environment with random action
     # random_action(1000)
     train_dqn(100, "cartpole-ddqn.h5", True)
+    show_result(500, "cartpole-ddqn.h5")
