@@ -12,7 +12,7 @@ import random
 
 
 # Run CartPole-v0 environment with random action taken each time.
-def random_action(count):
+def random_action(count=100):
     env = gym.make('CartPole-v0')
     env.reset()
     for _ in range(count):
@@ -133,7 +133,8 @@ def train_dqn(episodes, model_name, load_model=False):
                 agent.replay(batch_size)
         # Saves model after every ten episodes
         if e % 10 == 0:
-            agent.save("cartpole-ddqn.h5")
+            agent.save(model_name)
+    agent.save(model_name)
 
 
 def show_result(count, model):
